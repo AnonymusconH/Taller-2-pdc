@@ -35,42 +35,27 @@ Diseñar una función que permita calcular una aproximación de la función cose
 ```
 import math
 
-#Vamos a definir el coseno de Taylor
+def cos_approx_TaylorSwift(x, n):
+    # Variable para almacenar el resultado
+    resultado = 0
 
-x= float
-n= float
-def cos_taylorSwift (x, n):
-    coseno_aproximación = 0
-    factorial = 1
+    # Sumamos los términos de la serie de Taylor
     for i in range(n):
-        coseno_aproximación += ((-1)**i) * (x**(2 * i))/ factorial
-        factorial *= (2 * i + 1) * (2 * i + 2)
-    return coseno_aproximación
+        resultado += ((-1) ** i) * (x ** (2 * i)) / math.factorial(2 * i)
 
-# Ya definido el coseno, ahora vamos a definir el calculo de error
+    # Devolvemos el resultado
+    return resultado
 
-def calcular_error(x, n):
-    coseno_aproximación = cos_taylorSwift(x, n) #Despues traemos a math para el calculo del coseno
-    coseno = math.cos(x)
-    error = abs(coseno - coseno_aproximación)
-    return error
 
-# Ya estipulado todo, vamos a calcular el margen de error definiendo si es de 10%, 1% ,0.1% y 0.001%
+x = float(input("Ingrese el valor de x: "))
+n = int(input("Ingrese el número de términos de la serie: "))
 
-error = []
-margen_error = [0.1, 0.01, 0.001, 0.0001]
-for margen_error in margen_error:
-    n= 1
-    while True:
-        x= 1e-10 #Esto es un parametro que damos para determinar desde cuando se puede calcular el error
-        error= calcular_error(x, n)
-        if error <= margen_error * abs(math.cos(x)):
-            error.append((n, margen_error)) #Añadimos este parametro
-            break
-        n += 1
-
-for i in range (len(error)):
-    print ("Se necesita" + str({error[i][0]}) + "terminos de la serie para obtener un error de" +  str({error[i][1] * 100}))
+# Calculamos la aproximación y mostramos la diferencia entre el valor real y la aproximación
+cos_x = math.cos(x)
+cos_approx = cos_approx_TaylorSwift(x, n)
+print(f"El valor real de cos({x}) es: {cos_x}")
+print(f"La aproximación de cos({x}) usando {n} términos de la serie es: {cos_approx}")
+print(f"La diferencia entre el valor real y la aproximación es: {abs(cos_x - cos_approx)}")
 
 ```
 
